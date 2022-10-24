@@ -1,6 +1,7 @@
 package no.oslomet.cs.algdat.Oblig3;
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
@@ -89,13 +90,13 @@ public class SBinTre<T> {
 
         Node<T> p = rot, q = null;               // p starter i roten
         int cmp = 0;                             // hjelpevariabel
-        System.out.println("::: " + verdi);
+        // System.out.println("::: " + verdi);
         while (p != null)       // fortsetter til p er ute av treet
         {
-            System.out.println("- " + p);
+            // System.out.println("- " + p);
             q = p;                                 // q er forelder til p
             cmp = comp.compare(verdi,p.verdi);     // bruker komparatoren
-            System.out.println("oo " + cmp);
+            // System.out.println("oo " + cmp);
             p = cmp < 0 ? p.venstre : p.høyre;     // flytter p
         }
 
@@ -104,15 +105,15 @@ public class SBinTre<T> {
         p = new Node<T>(verdi, q);                  // oppretter en ny node
 
         if (q == null){
-            System.out.println(111);
+            // System.out.println(111);
             rot = p;                  // p blir rotnode
         } 
         else if (cmp < 0){
-            System.out.println(222);
+            // System.out.println(222);
             q.venstre = p;         // venstre barn til q
         } 
         else{
-            System.out.println(333);
+            // System.out.println(333);
             q.høyre = p;                        // høyre barn til q
         } 
 
@@ -240,12 +241,33 @@ public class SBinTre<T> {
         
     }
 
-    public ArrayList<T> serialize() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public ArrayList<T> serialize() {                                   //  Basert på kode fra forelesing
+        ArrayList<T> liste = new ArrayList<T>();
+        ArrayDeque<Node<T>> kø = new ArrayDeque<Node<T>>();
+        kø.add(rot);
+        
+        while (!kø.isEmpty()){
+            System.out.println("---- " + kø);
+            Node<T> current = kø.removeFirst();   //  Tar ut første fra køen
+            if (current.venstre != null){
+                kø.addLast(current.venstre);      //  Legger til venstrebarn, hvis det finnes
+            }
+            if (current.høyre != null){
+                kø.addLast(current.høyre);        //  Legger til høyrebarn, hvis det finnes
+            }
+            System.out.println(kø + " :: " + current.verdi);
+            liste.add(current.verdi);
+        }
+        System.out.println("iiii " + liste);
+        return liste;
     }
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        SBinTre<K> nyTre = new SBinTre<K>(c);
+        for (K k : data) {
+            nyTre.leggInn(k);
+        }
+        return nyTre;
     }
 
     public static void main(String[] args) {
@@ -295,6 +317,18 @@ public class SBinTre<T> {
         System.out.println("");
 
         tre.testE(førstePostorden(tre.rot));
+        System.out.println("");
+        System.out.println(tre.toStringPostOrder());
+        SBinTre<Integer> tre3 =
+                new SBinTre<>(Comparator.naturalOrder());
+
+        int[] aa = {10, 14, 6, 8, 1, 12, 7, 3, 11, 9, 13, 5, 2, 4};
+        for (int verdi : aa) tre3.leggInn(verdi);
+        System.out.println("----");
+        ArrayList<Integer> data = tre3.serialize();
+        System.out.println(tre3.toStringPostOrder());
+        SBinTre<Integer> tre2 = SBinTre.deserialize(data, Comparator.naturalOrder());
+        System.out.println(tre2.toStringPostOrder());
     }
 
 
