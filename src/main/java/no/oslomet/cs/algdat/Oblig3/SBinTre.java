@@ -129,7 +129,19 @@ public class SBinTre<T> {
     }
 
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (verdi == null) return 0;
+        int ant = 0;
+        Node<T> node = rot;
+        while (node != null){
+            int cmp = comp.compare(verdi, node.verdi);
+            if (cmp < 0) node = node.venstre;
+            else if (cmp > 0) node = node.høyre;
+            else{
+                ant += 1;
+                node = node.høyre;
+            } 
+        }
+        return ant;
     }
 
     public void nullstill() {
@@ -166,7 +178,7 @@ public class SBinTre<T> {
 
     public static void main(String[] args) {
         System.out.println(234);
-        Integer[] a = {4,7,2,9,5,10,8,1,3,6}; 
+        Integer[] a = {4,9,2,9,9,10,8,1,4,9}; 
         for (Integer integer : a) {
             System.out.print(integer + " ");
         }
@@ -174,6 +186,10 @@ public class SBinTre<T> {
         SBinTre<Integer> tre = new SBinTre<>(Comparator.naturalOrder()); 
         for (int verdi : a) {tre.leggInn(verdi); } 
         System.out.println(tre.antall());  // Utskrift: 10 
+        for (Integer integer : a) {
+            System.out.print(integer + " ");
+        }
+        System.out.println(tre.antall(9));
     }
 
 
