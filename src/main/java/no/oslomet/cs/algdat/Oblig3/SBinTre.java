@@ -165,7 +165,7 @@ public class SBinTre<T> {
                 break;
             }
         }
-        System.out.println("Første postorden: " + node.verdi);
+        // System.out.println("Første postorden: " + node.verdi);
         return node;
     }
 
@@ -177,11 +177,11 @@ public class SBinTre<T> {
         }
 
         Node<T> firstP = førstePostorden(p);
-        System.out.println("Start: " + p.verdi + " prevNode: " + prevNode + " førstePost: " + firstP);
+        // System.out.println("Start: " + p.verdi + " prevNode: " + prevNode + " førstePost: " + firstP);
         while (node != null){
-            System.out.println(node.venstre + "--- " + node.verdi + " ---" + node.høyre);
+            // System.out.println(node.venstre + "--- " + node.verdi + " ---" + node.høyre);
             if (node == firstP || node == p){
-                System.out.println("Hopp opp med en gang");
+                // System.out.println("Hopp opp med en gang");
                 prevNode = node;
                 node = node.forelder;
             }
@@ -191,12 +191,12 @@ public class SBinTre<T> {
                     // node = node.forelder;
                 }
                 else if (node.venstre != null && node.venstre != null && node.venstre != prevNode){
-                    System.out.println("Gå venstre");
+                    // System.out.println("Gå venstre");
                     prevNode = node;
                     node = node.venstre;
                 }
                 else if (node.høyre != null && node.høyre != firstP){
-                    System.out.println("Gå høyre");
+                    // System.out.println("Gå høyre");
                     prevNode = node;
                     node = node.høyre;
                 }
@@ -209,15 +209,35 @@ public class SBinTre<T> {
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node<T> node = førstePostorden(rot);
+        
+        while (node != null){
+            System.out.println(node.verdi);
+            oppgave.utførOppgave(node.verdi);
+            node = nestePostorden(node);
+        }
     }
 
     public void postordenRecursive(Oppgave<? super T> oppgave) {
-        postordenRecursive(rot, oppgave);
+        postordenRecursive(førstePostorden(rot), oppgave);              //  Må endres
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (p == null){
+            return;
+        }
+        oppgave.utførOppgave(p.verdi);
+        postordenRecursive(nestePostorden(p), oppgave);
+
+
+    }
+
+    public void testE(Node<T> p) {
+        if (p != null){
+            System.out.print(p.verdi + " ");
+            testE(nestePostorden(p));
+        }
+        
     }
 
     public ArrayList<T> serialize() {
@@ -265,6 +285,16 @@ public class SBinTre<T> {
         System.out.println(n);
         n = nestePostorden(n);
         System.out.println(n);
+        System.out.println("--------");
+        Node<Integer> nodee = førstePostorden(tre.rot);
+        
+        while (nodee != null){
+            System.out.print(nodee.verdi + " ");
+            nodee = nestePostorden(nodee);
+        }
+        System.out.println("");
+
+        tre.testE(førstePostorden(tre.rot));
     }
 
 
