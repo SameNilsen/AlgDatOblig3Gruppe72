@@ -149,11 +149,63 @@ public class SBinTre<T> {
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node<T> node = p;
+        while (node != null){
+            // System.out.println(node.verdi);
+            if (node.venstre != null){
+                // System.out.println("Left");
+                node = node.venstre;
+            }
+            else if (node.høyre != null){
+                // System.out.println("Høyre");
+                node = node.høyre;
+            }
+            else{
+                // System.out.println("Break");
+                break;
+            }
+        }
+        System.out.println("Første postorden: " + node.verdi);
+        return node;
     }
 
-    private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+    private static <T> Node<T> nestePostorden(Node<T> p) {               //  nesten som en iterator
+        Node<T> node = p;
+        Node<T> prevNode = null;
+        if (node.høyre != null){
+            prevNode = node.høyre;
+        }
+
+        Node<T> firstP = førstePostorden(p);
+        System.out.println("Start: " + p.verdi + " prevNode: " + prevNode + " førstePost: " + firstP);
+        while (node != null){
+            System.out.println(node.venstre + "--- " + node.verdi + " ---" + node.høyre);
+            if (node == firstP || node == p){
+                System.out.println("Hopp opp med en gang");
+                prevNode = node;
+                node = node.forelder;
+            }
+            else{
+                if (node.høyre != null && node.høyre == prevNode){
+                    return node;
+                    // node = node.forelder;
+                }
+                else if (node.venstre != null && node.venstre != null && node.venstre != prevNode){
+                    System.out.println("Gå venstre");
+                    prevNode = node;
+                    node = node.venstre;
+                }
+                else if (node.høyre != null && node.høyre != firstP){
+                    System.out.println("Gå høyre");
+                    prevNode = node;
+                    node = node.høyre;
+                }
+                else if (node.høyre == null){
+                    return node;
+                }
+            }
+        }
+        return null;
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
@@ -178,7 +230,7 @@ public class SBinTre<T> {
 
     public static void main(String[] args) {
         System.out.println(234);
-        Integer[] a = {4,9,2,9,9,10,8,1,4,9}; 
+        Integer[] a = {4,9,2,3,9,9,19,8,4,9}; 
         for (Integer integer : a) {
             System.out.print(integer + " ");
         }
@@ -189,7 +241,30 @@ public class SBinTre<T> {
         for (Integer integer : a) {
             System.out.print(integer + " ");
         }
-        System.out.println(tre.antall(9));
+        System.out.println("");
+        System.out.println("antall av 9: " + tre.antall(9));
+        System.out.println(førstePostorden(tre.rot));
+        System.out.println("---------");
+        Node<Integer> n = nestePostorden(førstePostorden(tre.rot));
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
+        n = nestePostorden(n);
+        System.out.println(n);
     }
 
 
