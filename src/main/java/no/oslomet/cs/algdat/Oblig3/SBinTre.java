@@ -89,6 +89,7 @@ public class SBinTre<T> {
         Objects.requireNonNull(verdi, "Ulovlig med nullverdier!");
 
         Node<T> p = rot, q = null;               // p starter i roten
+        // System.out.println("::::" + p);
         int cmp = 0;                             // hjelpevariabel
         // System.out.println("::: " + verdi);
         while (p != null)       // fortsetter til p er ute av treet
@@ -188,8 +189,39 @@ public class SBinTre<T> {
     }
 
     public void nullstill() {
+        // Node<T> node = førstePostorden(rot);
+        // Node<T> prevNode = null;
+        // while (node != null){
+        //     prevNode = node;
+        //     prevNode.verdi = null;
+        //     prevNode.forelder = null;
+        //     prevNode.høyre = null;
+        //     prevNode.venstre = null;
+        //     prevNode = null;
+        //     node = nestePostorden(node);
+        // }
+        if (antall() == 0) return;
+        ArrayDeque<Node<T>> kø = new ArrayDeque<Node<T>>();
+        kø.add(rot);
         
-        
+        while (!kø.isEmpty()){
+            // System.out.println("---- " + kø);
+            Node<T> current = kø.removeFirst();   //  Tar ut første fra køen
+            if (current.venstre != null){
+                kø.addLast(current.venstre);      //  Legger til venstrebarn, hvis det finnes
+            }
+            if (current.høyre != null){
+                kø.addLast(current.høyre);        //  Legger til høyrebarn, hvis det finnes
+            }
+            // System.out.println(kø + " :: " + current.verdi + "...... Fjern");
+            current.verdi = null;
+            current.forelder = null;
+            current.høyre = null;
+            current.venstre = null;
+            current = null;
+        }
+        antall = 0;
+        rot = null;
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
@@ -372,6 +404,12 @@ public class SBinTre<T> {
         System.out.println(tre3.toStringPostOrder());
         SBinTre<Integer> tre2 = SBinTre.deserialize(data, Comparator.naturalOrder());
         System.out.println(tre2.toStringPostOrder());
+        System.out.println("------------");
+        System.out.println(tre.toStringPostOrder());
+        tre.nullstill();
+        System.out.println(tre.toStringPostOrder());
+        System.out.println(tre.rot);
+        tre.leggInn(0);
     }
 
 
