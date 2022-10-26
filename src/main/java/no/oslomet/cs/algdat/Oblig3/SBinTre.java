@@ -188,24 +188,12 @@ public class SBinTre<T> {
         return ant;
     }
 
-    public void nullstill() {
-        // Node<T> node = førstePostorden(rot);
-        // Node<T> prevNode = null;
-        // while (node != null){
-        //     prevNode = node;
-        //     prevNode.verdi = null;
-        //     prevNode.forelder = null;
-        //     prevNode.høyre = null;
-        //     prevNode.venstre = null;
-        //     prevNode = null;
-        //     node = nestePostorden(node);
-        // }
+    public void nullstill() {                     //  Bruker Nivå orden traversering
         if (antall() == 0) return;
         ArrayDeque<Node<T>> kø = new ArrayDeque<Node<T>>();
         kø.add(rot);
         
         while (!kø.isEmpty()){
-            // System.out.println("---- " + kø);
             Node<T> current = kø.removeFirst();   //  Tar ut første fra køen
             if (current.venstre != null){
                 kø.addLast(current.venstre);      //  Legger til venstrebarn, hvis det finnes
@@ -213,11 +201,10 @@ public class SBinTre<T> {
             if (current.høyre != null){
                 kø.addLast(current.høyre);        //  Legger til høyrebarn, hvis det finnes
             }
-            // System.out.println(kø + " :: " + current.verdi + "...... Fjern");
-            current.verdi = null;
+            current.verdi = null;                 //  Fjerner alle spor av noden
             current.forelder = null;
             current.høyre = null;
-            current.venstre = null;
+            current.venstre = null;          
             current = null;
         }
         antall = 0;
