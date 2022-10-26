@@ -30,3 +30,7 @@ I denne oppgaven skulle jeg serialisere det binere treet til en arrayliste slik 
 ##  Oppgave 6
 
 I oppgave 6 skulle jeg først lage metoden fjern(verdi). Jeg brukte Programkode 5.2.8 d) fra kompendiet som håndterer de tre ulike situasjonene for noden som skal fjernes. Jeg la til en linje slik at barnet til noden som skal fjernes får oppdatert sin forelder peker.  Jeg lagde fjernAlle metoden ved å bruke en while løkke som kjører frem til inneholder(verdi) blir false, altså til verdien ikke finnes lengre i treet. For hver iterasjon kaller den på metoden fjern(verdi) og oppdaterer en teller som til slutt blir returnert. Jeg lagde først metoden nullstill() ved å traversere treet ved å bruke postorden logikken fra tidligere, men jeg fant ut at den logikken bruker både foreldrenoder og barnnoder slik at når en node fjernes bryter logikken sammen. Derfor valgte jeg å heller bruke nivå orden traversering slik som i serialize metoden ettersom den kun bruker barnnoder i traverseringen. For hver iterasjon fjernes alle spor av current-noden ved å sette alle attributter til null. Til slutt når hele treet er nullstilt settes antall til null og rot attributten til null.
+
+##  Kommentar angående gradle
+
+Jeg slet med å få gradle til å fungere på både forrige oblig og denne, men jeg tror jeg fant løsningen. Det viser seg at git ikke la til filen gradle-wrapper.jar automatisk, så ved å adde filen manuelt fra local repo til remote repo fungerte det endelig. https://stackoverflow.com/a/31622432
