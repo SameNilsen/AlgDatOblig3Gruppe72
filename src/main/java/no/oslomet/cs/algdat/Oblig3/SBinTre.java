@@ -100,7 +100,7 @@ public class SBinTre<T> {
 
         // p er nå null, dvs. ute av treet, q er den siste vi passerte
 
-        p = new Node<T>(verdi, q);                  // oppretter en ny node
+        p = new Node<T>(verdi, q);                  // oppretter en ny node, med forelder
 
         if (q == null){
             rot = p;                  // p blir rotnode
@@ -112,6 +112,7 @@ public class SBinTre<T> {
             q.høyre = p;                        // høyre barn til q
         } 
 
+        endringer++;
         antall++;                                // én verdi mer i treet
         return true;  
     }
@@ -153,6 +154,7 @@ public class SBinTre<T> {
         else s.høyre = r.høyre;
         }
 
+        endringer++;
         antall--;   // det er nå én node mindre i treet
         return true;
     }
@@ -201,6 +203,7 @@ public class SBinTre<T> {
             current.venstre = null;          
             current = null;
         }
+        endringer++;
         antall = 0;
         rot = null;
     }
@@ -301,72 +304,6 @@ public class SBinTre<T> {
             nyTre.leggInn(k);
         }
         return nyTre;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(234);
-        Integer[] a = {4,9,2,3,9,9,19,8,4,9}; 
-        for (Integer integer : a) {
-            System.out.print(integer + " ");
-        }
-        System.out.println("");
-        SBinTre<Integer> tre = new SBinTre<>(Comparator.naturalOrder()); 
-        for (int verdi : a) {tre.leggInn(verdi); } 
-        System.out.println(tre.antall());  // Utskrift: 10 
-        for (Integer integer : a) {
-            System.out.print(integer + " ");
-        }
-        System.out.println("");
-        System.out.println("antall av 9: " + tre.antall(9));
-        System.out.println(førstePostorden(tre.rot));
-        System.out.println("---------");
-        Node<Integer> n = nestePostorden(førstePostorden(tre.rot));
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        n = nestePostorden(n);
-        System.out.println(n);
-        System.out.println("--------");
-        Node<Integer> nodee = førstePostorden(tre.rot);
-        
-        while (nodee != null){
-            System.out.print(nodee.verdi + " ");
-            nodee = nestePostorden(nodee);
-        }
-        System.out.println("");
-
-        System.out.println("");
-        System.out.println(tre.toStringPostOrder());
-        SBinTre<Integer> tre3 =
-                new SBinTre<>(Comparator.naturalOrder());
-
-        int[] aa = {10, 14, 6, 8, 1, 12, 7, 3, 11, 9, 13, 5, 2, 4};
-        for (int verdi : aa) tre3.leggInn(verdi);
-        System.out.println("----");
-        ArrayList<Integer> data = tre3.serialize();
-        System.out.println(tre3.toStringPostOrder());
-        SBinTre<Integer> tre2 = SBinTre.deserialize(data, Comparator.naturalOrder());
-        System.out.println(tre2.toStringPostOrder());
-        System.out.println("------------");
-        System.out.println(tre.toStringPostOrder());
-        tre.nullstill();
-        System.out.println(tre.toStringPostOrder());
-        System.out.println(tre.rot);
-        tre.leggInn(0);
     }
 
 
